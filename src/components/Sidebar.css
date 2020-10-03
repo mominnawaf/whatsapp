@@ -1,0 +1,44 @@
+.SideBar{
+    display: flex;
+    flex-direction: column;
+    flex: 0.3;
+}
+.SidebarHeader{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-right: 1px solid lightgray;
+}
+.SidebarHeaderRight{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
+}
+.SidebarSearch{
+    display: flex;
+    align-items: center;
+    background-color: #dadadace;
+    height: 39px;
+    padding: 10px;
+}
+.SidebarSearchContainer{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height:35px;
+    border-radius:20px;
+}
+.SidebarSearchContainer>input{
+    border: none;
+    margin-left: 10px;
+}
+.SidebarSearchContainer .MuiSvgIcon-root{
+    color: gray;
+    padding: 10px;
+}
+.SidebarSearchContainer>input:focus{
+    border: none;
+    outline: none;
+}
