@@ -1,10 +1,15 @@
 import { Avatar } from '@material-ui/core'
 import React, {useEffect,useState} from 'react'
+import db from '../firbase';
 import './SidebarChat.css'
-import db from '../firbase'
 
-function createChat(){
-
+function createChat(e){
+const name = prompt("Add Room");
+if(name){
+    db.collection('Room').add({
+        Name:name
+    })
+}
 }
 function SidebarChat({id,name,addNewChat}) {
     const [seed, setseed] = useState('')

@@ -9,16 +9,22 @@ import SidebarChat from './SidebarChat'
 import db from '../firbase'
 
 export default function Sidebar() {
-    const [Room, setRoom] = useState('')
+    const [Rooms, setRooms] = useState([])
     useEffect(()=>{
-        db.collection('Room').onSnapshot(snapshot=>{
-            setRoom(snapshot.docs.map((doc)=>({
-                id:doc.id,
-                data: doc.data()
-            }))
-            )
-        })
-    })
+        //  console.log(db)
+          const unsub=db.collection('Room').onSnapshot(snapshot=>{
+              setRooms(snapshot.docs.map(doc=>(
+                  {
+                      id:doc.id,
+                      data:doc.data(),
+                  }
+              ))
+              )
+          });
+          return()=>{
+              unsub()
+          }
+      },[])
     return (
         <div className='SideBar'>
             <div className='SidebarHeader'>
@@ -44,14 +50,9 @@ export default function Sidebar() {
             <div className='SidebarChats'>
 
                 <SidebarChat addNewChat/>
-                {
-                    Room.map(room =>(
-                        <SidebarChat key={room.id} id={room.id} name={room.data.name}/>
-                    ))
-                }
-                <SidebarChat/>
-                <SidebarChat/>
-                <SidebarChat/>
+                {Rooms.map(room=>(
+                        <SidebarChat key={room.id} id={room.id} name={room.data.Name} />
+                ))}
             </div>
             
         </div>
