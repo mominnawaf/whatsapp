@@ -7,6 +7,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import { EmojiEmotions} from '@material-ui/icons';
 import MicIcon from "@material-ui/icons/Mic";
+import { useParams } from 'react-router-dom'
+import db from '../firbase';
 
 
 function Chat() {
@@ -16,12 +18,24 @@ function Chat() {
     }
     const [seed, setseed] = useState('')
     const [input, setInput] = useState('')
+    const { roomId } = useParams();
+    const [roomName, setRoomName]=useState('');
+    useEffect(() => {
+        if (roomId) {
+
+            db.collection("Room")
+                .doc(roomId)
+                .onSnapshot((snapshot) => {
+                    setRoomName(snapshot.data().Name);
+                });
+        }
+    }, [roomId]);
     return (
         <div className="Chat">
             <div className="ChatHeader">
                 <Avatar/>
                 <div className="ChatInfo">
-                    <h3>Chat Name</h3>
+                    <h3>{roomName}</h3>
                     <p>Last Seen : Coming Soon</p>
                 </div>
                 <div className="ChatHeaderRight">
