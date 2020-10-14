@@ -3,6 +3,7 @@ import React, {useEffect,useState} from 'react'
 import db from '../firbase';
 import './SidebarChat.css'
 import {Link} from 'react-router-dom'
+import userEvent from '@testing-library/user-event';
 
 function createChat(e){
 const name = prompt("Add Room");
@@ -14,13 +15,24 @@ if(name){
 }
 function SidebarChat({id,name,addNewChat}) {
     const [seed, setseed] = useState('')
+     const [messages,setMessages]=useState([]);
+        useEffect(()=>{
+       
+        if(id){
+        db.collection('Room').doc(id).collection('messages').orderBy
+        ('timestamp','desc').onSnapshot(snapshot =>(
+            setMessages(snapshot.docs.map((doc) => doc.data()))
+        ))
+        }
+        console.log(id)
+    },[])
     return !addNewChat? (
         <Link to={`/room/${id}`}>
         <div className="SidebarChat">
-            <Avatar src="http://avatars.dicebear.com/api/human/10.svg"/>
+            <Avatar />
             <div className='SidebarInfo'>
                 <h2>{name}</h2>
-                <p>This is the last message</p>
+                <p>{messages[0]?.messages}</p>
             </div>
             
         </div>

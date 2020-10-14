@@ -9,17 +9,28 @@ import { EmojiEmotions} from '@material-ui/icons';
 import MicIcon from "@material-ui/icons/Mic";
 import { useParams } from 'react-router-dom'
 import db from '../firbase';
+import {useStateValue} from "../StateProvider"
+import firebase from 'firebase';
 
 
 function Chat() {
     const sendMessage =(e)=>{
         e.preventDefault();
+        db.collection("Room").doc(roomId).collection("messages").add({
+            message: input,
+            name: user.displayName,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            photoURL:localStorage.getItem("photoURL")
+        });
         setInput('')
     }
+    const [{user},dispatch]= useStateValue();
     const [seed, setseed] = useState('')
     const [input, setInput] = useState('')
     const { roomId } = useParams();
     const [roomName, setRoomName]=useState('');
+    const [messages, setMessages] = useState([]);
+    const [lastseenPhoto,setLastseen]=useState("");
     useEffect(() => {
         if (roomId) {
 
@@ -28,15 +39,30 @@ function Chat() {
                 .onSnapshot((snapshot) => {
                     setRoomName(snapshot.data().Name);
                 });
+                 db.collection("Room")
+                .doc(roomId)
+                .collection("messages")
+                .orderBy("timestamp", "asc")
+                .onSnapshot((snapshot) => {
+                    setMessages(snapshot.docs.map((doc) => doc.data()));
+                })
         }
     }, [roomId]);
+     useEffect(()=>{
+        setLastseen(messages[messages.length-1]?.photoURL)
+    },[messages])
     return (
         <div className="Chat">
             <div className="ChatHeader">
                 <Avatar/>
                 <div className="ChatInfo">
                     <h3>{roomName}</h3>
-                    <p>Last Seen : Coming Soon</p>
+                    <p>last seen{" "}
+                                {messages.length !== 0
+                                    ? messages[messages.length - 1].timestamp
+                                        ?.toDate()
+                                        .toUTCString()
+                                    : "Loading"}</p>
                 </div>
                 <div className="ChatHeaderRight">
                     <IconButton>
@@ -52,11 +78,14 @@ function Chat() {
                 </div>
             </div>
             <div className="ChatBody">
-                <div className={`ChatMessage ${false && 'ChatMessageReciever'}`}>
-                <span className="ChatName">Nawaf</span>
-                    Hi There
-                    <span className="Time">12:22 am</span>
+                {messages.map((message)=>(
+                     <div className={`ChatMessage ${message.name === user.displayName && 'ChatMessageReciever'}`}>
+                <span className="ChatName">{message.name}</span>
+                    {message.message}
+                <span className="Time">{new Date(message.timestamp?.toDate()).toUTCString()}</span>
                 </div>
+                ))}
+               
             </div>
             
             <div className="ChatFooter">
