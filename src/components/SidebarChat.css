@@ -13,6 +13,10 @@
 .SidebarInfo{
     margin-left: 10px;
 }
+a{
+    text-decoration: none !important;
+    color: black;
+}
 .SidebarInfo >h2{
     margin: 0;
     font-size: 20px;
