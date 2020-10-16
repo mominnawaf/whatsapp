@@ -27,7 +27,6 @@ export default function Sidebar() {
               unsub()
           }
       },[])
-      
     return (
         
         <div className='SideBar'>

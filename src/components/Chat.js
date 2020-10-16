@@ -13,7 +13,7 @@ import {useStateValue} from "../StateProvider"
 import firebase from 'firebase';
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
-import { ReactMic } from 'react-mic';
+
 
 
 
@@ -116,10 +116,6 @@ function Chat() {
                 </form>
                 <IconButton>
                     <MicIcon/>
-                    <ReactMic record={true}
-          className="sound-wave"
-          strokeColor="#000000"
-          backgroundColor="#FF4081"/>
                 </IconButton>
             </div>
             
