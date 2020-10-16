@@ -97,3 +97,11 @@
     padding:7px;
     color: gray;
 }
+ .emoji-mart {
+     position: absolute !important;
+     width: 20vw !important;
+     z-index: 999;
+     top: -900%;
+     left: 0;
+ }
+ 

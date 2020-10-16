@@ -5,12 +5,16 @@ import './Chat.css'
 import AttachFile from "@material-ui/icons/AttachFile";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
-import { EmojiEmotions} from '@material-ui/icons';
 import MicIcon from "@material-ui/icons/Mic";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import { useParams } from 'react-router-dom'
 import db from '../firbase';
 import {useStateValue} from "../StateProvider"
 import firebase from 'firebase';
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+import { ReactMic } from 'react-mic';
+
 
 
 function Chat() {
@@ -24,13 +28,23 @@ function Chat() {
         });
         setInput('')
     }
+    const [emoji,setEmoji] = useState(false);
     const [{user},dispatch]= useStateValue();
-    const [seed, setseed] = useState('')
     const [input, setInput] = useState('')
     const { roomId } = useParams();
     const [roomName, setRoomName]=useState('');
     const [messages, setMessages] = useState([]);
     const [lastseenPhoto,setLastseen]=useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const addEmoji = e => {
+        let emoji = e.native;
+        setInput(input+emoji);
+      };
+    const checkEmojiClose = ()=>{
+      if(emoji){
+        setEmoji(false);
+      }
+    }
     useEffect(() => {
         if (roomId) {
 
@@ -89,13 +103,23 @@ function Chat() {
             </div>
             
             <div className="ChatFooter">
-                <EmojiEmotions/>
+                 <IconButton >
+                            <InsertEmoticonIcon onClick={()=> setEmoji(!emoji)}/>
+                           { (emoji)?(
+                                <Picker onSelect={addEmoji} />
+                            ):(null)
+                            } 
+                            </IconButton>
                 <form>
                     <input type='text' value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Enter Message"/>
                     <button type="submit" onClick={sendMessage}>Send</button>
                 </form>
                 <IconButton>
                     <MicIcon/>
+                    <ReactMic record={true}
+          className="sound-wave"
+          strokeColor="#000000"
+          backgroundColor="#FF4081"/>
                 </IconButton>
             </div>
             
