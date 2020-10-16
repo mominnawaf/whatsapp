@@ -7,15 +7,17 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import MicIcon from "@material-ui/icons/Mic";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import DeleteIcon from '@material-ui/icons/Delete'
+import PlayArrow from '@material-ui/icons/PlayArrow'
+import ThumbUp from '@material-ui/icons/ThumbUp'
+import Pause from '@material-ui/icons/Pause'
 import { useParams } from 'react-router-dom'
 import db from '../firbase';
 import {useStateValue} from "../StateProvider"
 import firebase from 'firebase';
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
-
-
-
+import AudioRecorder from 'audio-recorder-polyfill'
 
 function Chat() {
     const sendMessage =(e)=>{
@@ -36,6 +38,12 @@ function Chat() {
     const [messages, setMessages] = useState([]);
     const [lastseenPhoto,setLastseen]=useState("");
     const [isOpen, setIsOpen] = useState(false);
+    window.MediaRecorder = AudioRecorder
+    const [recording, setRecording] =useState(false)
+    let recorder;
+    const style ={
+        'color':'red'
+    }
     const addEmoji = e => {
         let emoji = e.native;
         setInput(input+emoji);
@@ -65,6 +73,26 @@ function Chat() {
      useEffect(()=>{
         setLastseen(messages[messages.length-1]?.photoURL)
     },[messages])
+    const record=()=>{
+        if (MediaRecorder.notSupported) {}
+         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    recorder = new MediaRecorder(stream)
+    // Start recording
+    recorder.start()
+      setRecording(true)
+  })
+    }
+    const stoprecord=()=>{
+        
+     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    recorder = new MediaRecorder(stream)
+     // Stop recording
+  recorder.stop()
+  // Remove “recording” icon from browser tab
+  recorder.stream.getTracks().forEach(i => i.stop())
+      setRecording(false)
+  })
+}
     return (
         <div className="Chat">
             <div className="ChatHeader">
@@ -114,9 +142,19 @@ function Chat() {
                     <input type='text' value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Enter Message"/>
                     <button type="submit" onClick={sendMessage}>Send</button>
                 </form>
-                <IconButton>
-                    <MicIcon/>
-                </IconButton>
+                {
+                    !recording ?(
+                    <IconButton>
+                        <MicIcon onClick={record}/>
+                    </IconButton>
+                    )
+                    
+                :(
+                    <IconButton>
+                    <ThumbUp onClick={stoprecord}/>
+                    </IconButton>
+                )    
+                }
             </div>
             
         </div>
