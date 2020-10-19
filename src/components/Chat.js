@@ -78,9 +78,6 @@ function Chat() {
                 </div>
                 <div className="ChatHeaderRight">
                     <IconButton>
-                        <AttachFile/>
-                    </IconButton>
-                    <IconButton>
                         <SearchOutlined/>
                     </IconButton>
                     <IconButton>
@@ -108,6 +105,9 @@ function Chat() {
                             ):(null)
                             } 
                             </IconButton>
+                            <IconButton>
+                        <AttachFile/>
+                    </IconButton>
                 <form>
                     <input type='text' value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Enter Message"/>
                     <button type="submit" onClick={sendMessage}>Send</button>
