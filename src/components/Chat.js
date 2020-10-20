@@ -101,7 +101,7 @@ function Chat() {
                  <IconButton >
                             <InsertEmoticonIcon onClick={()=> setEmoji(!emoji)}/>
                            { (emoji)?(
-                                <Picker onSelect={addEmoji} />
+                                <Picker showPreview={false}  showSkinTones={false} onSelect={addEmoji} />
                             ):(null)
                             } 
                             </IconButton>
