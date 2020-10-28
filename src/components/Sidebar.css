@@ -56,7 +56,6 @@
 .SidebarChats{
     flex: 1;
     background-color: white;
-    overflow:scroll;
     position: relative;
     overflow-x: hidden;
 }

@@ -29,10 +29,11 @@
     background-image: url('../assets/bg.png');
     background-image: repeat;
     background-position:center;
-    overflow: scroll;
     padding: 30px;
+    overflow-y: scroll;
     overflow-x: hidden;
 }
+
 .ChatMessage{
     position: relative;
     font-size: 14px;
@@ -53,7 +54,9 @@
 }
 .Time{
     margin-left: 10px;
-     font-size:xx-small;
+    font-size:5px;
+    margin-top: 2px;
+    color: gray;
 }
 .ChatMessageReciever{
     position: relative;
@@ -101,6 +104,6 @@
      position: absolute !important;
      width: 20vw !important;
      z-index: 999;
-     top: -900%;
+     top: -720%;
      left: 0;
  }

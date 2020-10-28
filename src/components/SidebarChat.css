@@ -1,26 +1,31 @@
-.SidebarChat{
+.SidebarChat {
     display: flex;
     padding: 20px;
     cursor: pointer;
     border-bottom: 1px solid rgb(211, 202, 202);
     overflow-y: hidden;
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
-.SidebarChat:hover{
-    background-color:#0fb45c;
+
+.SidebarChat:hover {
+    background-color: #0fb45c;
     color: white;
 }
-.SidebarInfo{
+
+.SidebarInfo {
     margin-left: 10px;
 }
-a{
+
+a {
     text-decoration: none !important;
     color: black;
 }
-.SidebarInfo >h2{
+
+.SidebarInfo>h2 {
     margin: 0;
     font-size: 20px;
 }
-.SidebarInfo >p{
+
+.SidebarInfo>p {
     margin: 0;
 }
